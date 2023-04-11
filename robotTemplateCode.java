@@ -1,7 +1,7 @@
 //THIS IS A CODE TEMPLATE FOR THE MECHADOGS ROBOTICS TEAM
 //YOU MUST EDIT THIS FOR USE 
 //COMMENTS EXPLAIN THE MAJORITY
-//CONTACT AT 914-325-7250 WITH QUESTIONS
+//CONTACT AT 914-325-7250 or nicholas.schnorbus@gmail.com WITH QUESTIONS
 
 
 
@@ -73,13 +73,16 @@ public class Robot extends TimedRobot {
     CameraServer.startAutomaticCapture();
   }
 
+  // this method will run every tick of all robot modes, isn't super important unless you want constant diags running
   @Override
   public void robotPeriodic() {
     
   }
 
+  // runs at the start of auto and no other time
   @Override
   public void autonomousInit() {
+    //starts and resets the timer for auto that we set earlier
     autoTimer.stop();
     autoTimer.reset();
     autoTimer.start();
@@ -91,17 +94,21 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    //basically you can set multiple different auto modes and use one of them as selected, each one is under a switch case
     switch (m_autoSelected) {
       case kCustomAuto:
         // Put custom auto code here
         break;
       case kDefaultAuto:
-      case "Drive Back Balance":
+      case "templateCustomAuto":
+        //checks if 5 seconds have elapsed from the timer
         if (!autoTimer.hasElapsed(5.0)) {
+          //drives for a certain speed and turn during auto while timer goes, constant speed
           differentialDrive.arcadeDrive(.6, .3);
         } else {
+          //stops the robot if the timer has expired
           differentialDrive.arcadeDrive(0, 0);
-          clawA.set(Value.kForward);
+         
         }
         break;
       default:
@@ -109,22 +116,22 @@ public class Robot extends TimedRobot {
         break;
     }
   }
-
+//runs at the start of teleop
   @Override
   public void teleopInit() {
-    clawA.set(Value.kReverse);
-
+    //stops the timer used during auto and resets it
     autoTimer.stop();
     autoTimer.reset();
   }
 
-
+// runs every frame of teleop
   @Override
   public void teleopPeriodic() {
-
+    //creates variables to store the movement of the robot every tick
     double forw = -1 * joystick.getRawAxis(1); /* positive is forward */
     double turn = -1 * joystick.getRawAxis(2); /* positive is right */
 
+    //basically just checks if the given input is really small and reduces it to zero if so, helps stop drift
     if (Math.abs(forw) < 0.10) {
       forw = 0;
     }
@@ -132,6 +139,7 @@ public class Robot extends TimedRobot {
       turn = 0;
     }
 
+     //applies the motion of the robot based on the variables set earlier
     differentialDrive.arcadeDrive(forw * speed, turn * turnSpeed, false);
   }
 
@@ -154,9 +162,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
-
-    // armRotationalLeft.set(-1);
-    // armRotationalRight.set(1);
 
   }
 }
