@@ -13,4 +13,9 @@ do not read this
 i also made the repo after comps
 good job me
 
+
+there is a template for the base code of a robot as well
+email/call me with questions
+
+
 ok bye
