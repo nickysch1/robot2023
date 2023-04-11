@@ -52,8 +52,8 @@ public class Robot extends TimedRobot {
 
   // group motor controllers, used to control the drivetrain by each side rather than individually. Can treat each group as one motor
 
-  MotorControllerGroup leftSet = new MotorControllerGroup(leftOne, leftTwo);
-  MotorControllerGroup rightSet = new MotorControllerGroup(rightOne, rightTwo);
+  MotorControllerGroup leftSet = new MotorControllerGroup(leftDriveTrainOne, leftDriveTrainTwo);
+  MotorControllerGroup rightSet = new MotorControllerGroup(rightDriveTrainOne, rightDriveTrainTwo);
 
   // create differential drive class using the sets of motors. This allows the use of arcade drive, swerve drive, etc
   private final DifferentialDrive differentialDrive = new DifferentialDrive(leftSet, rightSet);
